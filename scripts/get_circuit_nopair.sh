@@ -6,7 +6,8 @@ EDGE=$3
 DICT=$4
 
 python circuit.py \
-    --model EleutherAI/pythia-70m-deduped \
+    --dict_path ../autodl-tmp/dictionaries/pythia-70m-deduped/ \
+    --model ../autodl-tmp/models/pythia-70m-deduped \
     --num_examples 100 \
     --batch_size 6 \
     --dataset $DATA \
