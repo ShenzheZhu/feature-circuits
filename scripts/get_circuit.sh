@@ -8,13 +8,12 @@ LENGTH=$5
 DICT_ID=$6
 
 python circuit.py \
-    --dict_path ../autodl-tmp/dictionaries/pythia-70m-deduped/ \
-    --model ../autodl-tmp/models/pythia-70m-deduped \
-    --num_examples 100 \
+    --model ../autodl-tmp/models/gemma-2-2b \
+    --num_examples 200 \
     --batch_size 10 \
-    --dataset $DATA \
-	--node_threshold $NODE \
-	--edge_threshold $EDGE \
-	--aggregation $AGG \
-    --example_length $LENGTH \
-    --dict_id $DICT_ID
+    --dataset rc_train \
+	--node_threshold 0.1 \
+	--edge_threshold 0.01 \
+	--aggregation none \
+    --example_length 6 \
+
