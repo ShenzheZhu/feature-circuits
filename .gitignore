@@ -164,3 +164,7 @@ phenomena/vocab/*.json
 phenomena/circuits/*
 circuits/*
 nohup.out
+
+__pycache__/
+*.pyc
+*.pyo
