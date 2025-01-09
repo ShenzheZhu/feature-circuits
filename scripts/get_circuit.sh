@@ -9,7 +9,7 @@ DICT_ID=$6
 
 python circuit.py \
     --model ../autodl-tmp/models/gemma-2-2b \
-    --num_examples 200 \
+    --num_examples 100 \
     --batch_size 10 \
     --dataset rc_train \
 	--node_threshold 0.1 \

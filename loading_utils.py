@@ -18,7 +18,7 @@ class DictionaryCfg():
         self.size = dictionary_size
 
 
-def load_examples(dataset, num_examples, model, seed=12, pad_to_length=None, length=None):
+def load_examples(dataset, num_examples, model, seed=12, pad_to_length=None, length=None, special_token=False):
     examples = []
     dataset_items = open(dataset).readlines()
     random.seed(seed)
@@ -26,18 +26,20 @@ def load_examples(dataset, num_examples, model, seed=12, pad_to_length=None, len
     for line in dataset_items:
         data = json.loads(line)
         clean_prefix = model.tokenizer(data["clean_prefix"], return_tensors="pt",
-                                        padding=False).input_ids
+                                        padding=False, add_special_tokens=special_token).input_ids
         patch_prefix = model.tokenizer(data["patch_prefix"], return_tensors="pt",
-                                        padding=False).input_ids
+                                        padding=False, add_special_tokens=special_token).input_ids
         clean_answer = model.tokenizer(data["clean_answer"], return_tensors="pt",
-                                        padding=False).input_ids
+                                        padding=False, add_special_tokens=special_token).input_ids
         patch_answer = model.tokenizer(data["patch_answer"], return_tensors="pt",
-                                        padding=False).input_ids
+                                        padding=False, add_special_tokens=special_token).input_ids
         # only keep examples where answers are single tokens
         if clean_prefix.shape[1] != patch_prefix.shape[1]:
+            print("length of clean_prefix and patch_prefix doesn't match")
             continue
         # only keep examples where clean and patch inputs are the same length
         if clean_answer.shape[1] != 1 or patch_answer.shape[1] != 1:
+            print("length of clean_answer and patch_answer doesn't match 1")
             continue
         # if we specify a `length`, filter examples if they don't match
         if length and clean_prefix.shape[1] != length:

@@ -4,6 +4,7 @@ from tqdm import tqdm
 from numpy import ndindex
 from typing import Dict, Union
 from activation_utils import SparseAct
+t._C._jit_override_can_fuse_on_cpu(False) 
 
 DEBUGGING = False
 

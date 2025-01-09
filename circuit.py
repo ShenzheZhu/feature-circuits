@@ -17,6 +17,8 @@ from loading_utils import load_examples, load_examples_nopair
 from nnsight import LanguageModel
 from dictionary_learning import JumpReluAutoEncoder
 
+t._C._jit_override_can_fuse_on_cpu(False) 
+
 
 ###### utilities for dealing with sparse COO tensors ######
 def flatten_index(idxs, shape):
@@ -390,9 +392,9 @@ if __name__ == '__main__':
         data_path = f"data/{args.dataset}.json"
         save_basename = args.dataset
         if args.aggregation == "sum":
-            examples = load_examples(data_path, args.num_examples, model, pad_to_length=args.example_length)
+            examples = load_examples(data_path, args.num_examples, model, pad_to_length=args.example_length, special_token=False)
         else:
-            examples = load_examples(data_path, args.num_examples, model, length=args.example_length)
+            examples = load_examples(data_path, args.num_examples, model, length=args.example_length, special_token=False)
     
     batch_size = args.batch_size
     num_examples = min([args.num_examples, len(examples)])
@@ -444,7 +446,7 @@ if __name__ == '__main__':
                 node_threshold=args.node_threshold,
                 edge_threshold=args.edge_threshold,
             )
-
+            print(nodes, edges)
             if running_nodes is None:
                 running_nodes = {k : len(batch) * nodes[k].to('cpu') for k in nodes.keys() if k != 'y'}
                 if not args.nodes_only: running_edges = { k : { kk : len(batch) * edges[k][kk].to('cpu') for kk in edges[k].keys() } for k in edges.keys()}
